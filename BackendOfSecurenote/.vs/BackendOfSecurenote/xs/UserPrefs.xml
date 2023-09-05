@@ -3,11 +3,10 @@
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/NoteController.cs">
     <Files>
-      <File FileName="Manager/NoteManager.cs" Line="56" Column="16" />
-      <File FileName="Controllers/NoteController.cs" Line="74" Column="37" />
+      <File FileName="Manager/NoteManager.cs" />
+      <File FileName="Controllers/NoteController.cs" Line="76" Column="6" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -25,6 +24,7 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.ItemProperties.BackendOfSecurenote PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
   <MultiItemStartupConfigurations />
 </Properties>
