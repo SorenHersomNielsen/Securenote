@@ -1,67 +1,74 @@
 import 'package:flutter/material.dart';
 
-class MyApp extends StatelessWidget {
+class NotePage extends StatefulWidget {
+  const NotePage(
+      {Key? key, required this.id, required this.title, required this.text})
+      : super(key: key);
+
+  final int id;
+  final String title;
+  final String text;
+
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: MyHomePage(),
-    );
-  }
+  _NotePageState createState() => _NotePageState();
 }
 
-class MyHomePage extends StatelessWidget {
+class _NotePageState extends State<NotePage> {
+  final maxLines = 5;
+  late String title;
+  late String text;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-      ),
+      appBar: AppBar(),
       body: Column(
         children: <Widget>[
-          const Row(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               Expanded(
                 child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                   'Note'
-                  ),
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(widget.id.toString()),
                 ),
               ),
               Expanded(
                 child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    'title'
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    keyboardType: TextInputType.multiline,
+                    decoration:
+                        InputDecoration(filled: true, hintText: widget.title),
+                    onChanged: (value) {
+                      title = value;
+                    },
                   ),
                 ),
               ),
             ],
           ),
-          // Anden linje: Et stort inputfelt
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Expanded(
-              child: TextField(
-                maxLines: null,
-                decoration: InputDecoration(
-                  labelText: 'Stort Input Felt',
-                  border: OutlineInputBorder(),
-                ),
-              ),
+          Container(
+            margin: const EdgeInsets.all(12),
+            height: maxLines * 24.0,
+            child: TextField(
+              maxLines: maxLines,
+              keyboardType: TextInputType.multiline,
+              decoration: InputDecoration(filled: true, hintText: widget.text),
+              onChanged: (value) {
+                text = value;
+              },
             ),
           ),
-          // Tredje linje: To knapper på samme række
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               ElevatedButton(
-                onPressed: () {
-                },
+                onPressed: () {},
                 child: const Text('Gem'),
               ),
               ElevatedButton(
-                onPressed: () {
-                },
+                onPressed: () {},
                 child: const Text('Slet'),
               ),
             ],
