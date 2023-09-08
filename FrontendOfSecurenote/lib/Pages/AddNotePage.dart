@@ -1,21 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:frontendofsecurenote/Model/Note.dart';
 import 'package:frontendofsecurenote/Viewmodel.dart';
 
-class NotePage extends StatefulWidget {
-  const NotePage(
-      {Key? key, required this.id, required this.title, required this.text})
-      : super(key: key);
-
-  final int id;
-  final String title;
-  final String text;
-
+class AddNotePage extends StatefulWidget {
+  const AddNotePage({Key? key}) : super(key: key);
   @override
-  _NotePageState createState() => _NotePageState();
+  _AddNotePageState createState() => _AddNotePageState();
 }
 
-class _NotePageState extends State<NotePage> {
+class _AddNotePageState extends State<AddNotePage> {
   final maxLines = 5;
   late String title;
   late String text;
@@ -32,16 +24,10 @@ class _NotePageState extends State<NotePage> {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(widget.id.toString()),
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
                   child: TextField(
                     keyboardType: TextInputType.multiline,
                     decoration:
-                        InputDecoration(filled: true, hintText: widget.title),
+                        const InputDecoration(filled: true, hintText: "title"),
                     onChanged: (value) {
                       title = value;
                     },
@@ -56,7 +42,7 @@ class _NotePageState extends State<NotePage> {
             child: TextField(
               maxLines: maxLines,
               keyboardType: TextInputType.multiline,
-              decoration: InputDecoration(filled: true, hintText: widget.text),
+              decoration: const InputDecoration(filled: true, hintText: "text"),
               onChanged: (value) {
                 text = value;
               },
@@ -67,17 +53,10 @@ class _NotePageState extends State<NotePage> {
             children: <Widget>[
               ElevatedButton(
                 onPressed: () {
-                  Viewmodel().updateNote(widget.id, title, text);
+                  Viewmodel().createNote(title, text);
                   Navigator.pop(context, true);
                 },
                 child: const Text('Gem'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Viewmodel().deleteNote(widget.id);
-                  Navigator.pop(context, true);
-                },
-                child: const Text('Slet'),
               ),
             ],
           ),
