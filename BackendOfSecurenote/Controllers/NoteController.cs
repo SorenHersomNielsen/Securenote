@@ -21,6 +21,7 @@ namespace BackendOfSecurenote.Controllers
 
         // GET: api/values
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public IEnumerable<Note> Get()
         {
             return _manager.GetAllNotes();
@@ -29,6 +30,8 @@ namespace BackendOfSecurenote.Controllers
 
         // POST api/values
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<Note> Post([FromBody] Note value)
         {
             try
@@ -45,6 +48,9 @@ namespace BackendOfSecurenote.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<Note> Put(int id, [FromBody]Note value)
         {
             try
@@ -64,12 +70,14 @@ namespace BackendOfSecurenote.Controllers
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<Note> DeleteNote(int id)
         {
             Note deletedNotes = _manager.DeleteNote(id);
             if (deletedNotes == null)
             {
-                return null;
+                return NotFound("That does not exist note with that id");
             }
             return Ok(deletedNotes);
         }
