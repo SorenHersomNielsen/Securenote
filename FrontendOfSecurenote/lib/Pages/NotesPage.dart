@@ -32,6 +32,7 @@ class _NotesState extends State<NotesPage> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Securenote'),
+          automaticallyImplyLeading: false,
           elevation: 0.0,
           actions: <Widget>[
             RawMaterialButton(
@@ -39,16 +40,12 @@ class _NotesState extends State<NotesPage> {
               padding: const EdgeInsets.all(15.0),
               shape: const CircleBorder(),
               onPressed: () async {
-                final refresh = await Navigator.push(
+              await Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => AddNotePage(),
                   ),
                 );
-
-                if (refresh == true) {
-                  refreshNotes();
-                }
               },
             ),
           ],
@@ -65,7 +62,7 @@ class _NotesState extends State<NotesPage> {
                       itemBuilder: (BuildContext context, int index) {
                         return ListTile(
                           onTap: () async {
-                            final refresh = await Navigator.push(
+                           await Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => NotePage(
@@ -73,9 +70,6 @@ class _NotesState extends State<NotesPage> {
                                           title: notes[index].title,
                                           text: notes[index].text,
                                         )));
-                            if (refresh == true) {
-                              refreshNotes();
-                            }
                           },
                           title: Text(notes[index].title),
                         );

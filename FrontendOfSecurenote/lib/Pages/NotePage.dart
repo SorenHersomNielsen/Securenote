@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontendofsecurenote/Pages/NotesPage.dart';
 import 'package:frontendofsecurenote/Viewmodel.dart';
 
 class NotePage extends StatefulWidget {
@@ -65,7 +66,7 @@ class _NotePageState extends State<NotePage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   Viewmodel().updateNote(widget.id, title, text);
                   ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -73,12 +74,17 @@ class _NotePageState extends State<NotePage> {
           backgroundColor: Colors.green,
         ),
       );
-                  Navigator.pop(context, true);
+                  await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => NotesPage(),
+                  ),
+                );
                 },
                 child: const Text('Gem'),
               ),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   Viewmodel().deleteNote(widget.id);
                   ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -86,7 +92,12 @@ class _NotePageState extends State<NotePage> {
           backgroundColor: Colors.green,
         ),
       );
-                  Navigator.pop(context, true);
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => NotesPage(),
+                  ),
+                );
                 },
                 child: const Text('Slet'),
               ),

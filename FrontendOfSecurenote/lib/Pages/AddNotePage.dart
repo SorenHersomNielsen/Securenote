@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontendofsecurenote/Pages/NotesPage.dart';
 import 'package:frontendofsecurenote/Viewmodel.dart';
 
 class AddNotePage extends StatefulWidget {
@@ -52,7 +53,7 @@ class _AddNotePageState extends State<AddNotePage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async{
                   if (title.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
@@ -67,7 +68,12 @@ class _AddNotePageState extends State<AddNotePage> {
                         backgroundColor: Colors.red));
                   } else {
                     Viewmodel().createNote(title, text);
-                    Navigator.pop(context, true);
+                   await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => NotesPage(),
+                  ),
+                );
                   }
                 },
                 child: const Text('Gem'),
