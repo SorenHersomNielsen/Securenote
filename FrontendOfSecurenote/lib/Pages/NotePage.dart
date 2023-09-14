@@ -67,6 +67,12 @@ class _NotePageState extends State<NotePage> {
               ElevatedButton(
                 onPressed: () {
                   Viewmodel().updateNote(widget.id, title, text);
+                  ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Noter updateret"),
+          backgroundColor: Colors.green,
+        ),
+      );
                   Navigator.pop(context, true);
                 },
                 child: const Text('Gem'),
@@ -74,6 +80,12 @@ class _NotePageState extends State<NotePage> {
               ElevatedButton(
                 onPressed: () {
                   Viewmodel().deleteNote(widget.id);
+                  ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Noter er slettet"),
+          backgroundColor: Colors.green,
+        ),
+      );
                   Navigator.pop(context, true);
                 },
                 child: const Text('Slet'),
