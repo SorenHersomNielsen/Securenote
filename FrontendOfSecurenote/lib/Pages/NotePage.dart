@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:frontendofsecurenote/Model/Note.dart';
 import 'package:frontendofsecurenote/Viewmodel.dart';
 
 class NotePage extends StatefulWidget {
-  const NotePage(
+  NotePage(
       {Key? key, required this.id, required this.title, required this.text})
       : super(key: key);
 
@@ -17,8 +16,8 @@ class NotePage extends StatefulWidget {
 
 class _NotePageState extends State<NotePage> {
   final maxLines = 5;
-  late String title;
-  late String text;
+  late String title = widget.title;
+  late String text = widget.text;
 
   @override
   Widget build(BuildContext context) {

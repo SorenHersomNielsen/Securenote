@@ -9,8 +9,8 @@ class AddNotePage extends StatefulWidget {
 
 class _AddNotePageState extends State<AddNotePage> {
   final maxLines = 5;
-  late String title;
-  late String text;
+  late String title = "";
+  late String text = "";
 
   @override
   Widget build(BuildContext context) {
@@ -53,8 +53,22 @@ class _AddNotePageState extends State<AddNotePage> {
             children: <Widget>[
               ElevatedButton(
                 onPressed: () {
-                  Viewmodel().createNote(title, text);
-                  Navigator.pop(context, true);
+                  if (title.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Manglende titel"),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                  } else if (text.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Manglende tekst"),
+                        backgroundColor: Colors.red));
+                  } else {
+                    Viewmodel().createNote(title, text);
+                    Navigator.pop(context, true);
+                  }
                 },
                 child: const Text('Gem'),
               ),

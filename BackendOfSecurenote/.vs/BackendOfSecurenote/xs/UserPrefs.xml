@@ -1,30 +1,36 @@
 ﻿<Properties StartupConfiguration="{4F69367C-3C22-4685-99A0-BF9238015A60}|https">
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Manager/NoteManager.cs">
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.Workbench ActiveDocument="appsettings.json">
     <Files>
-      <File FileName="Manager/NoteManager.cs" Line="29" Column="4" />
-      <File FileName="Controllers/NoteController.cs" />
-      <File FileName="Manager/NoteContext.cs" />
+      <File FileName="Manager/NoteManager.cs" Line="28" Column="16" />
+      <File FileName="Controllers/NoteController.cs" Line="32" Column="28" />
+      <File FileName="Manager/NoteContext.cs" Line="1" Column="1" />
+      <File FileName="Models/Note.cs" Line="2" Column="37" />
+      <File FileName="Program.cs" Line="1" Column="1" />
+      <File FileName="appsettings.json" Line="11" Column="22" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="BackendOfSecurenote">
             <Node name="BackendOfSecurenote">
-              <Node name="Manager" expanded="True">
-                <Node name="NoteManager.cs" selected="True" />
+              <Node name="Dependencies" expanded="True">
+                <Node name="PackageDependencies" expanded="True" />
               </Node>
+              <Node name="Controllers" expanded="True" />
+              <Node name="Manager" expanded="True" />
               <Node name="Models" expanded="True" />
+              <Node name="appsettings.json" selected="True" />
             </Node>
           </Node>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.BackendOfSecurenote PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.ItemProperties.BackendOfSecurenote PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MultiItemStartupConfigurations />
 </Properties>
