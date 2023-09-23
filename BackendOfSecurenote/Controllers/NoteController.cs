@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BackendOfSecurenote.Manager;
+﻿using BackendOfSecurenote.Manager;
 using BackendOfSecurenote.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BackendOfSecurenote.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     public class NoteController : Controller
     {
@@ -17,21 +15,36 @@ namespace BackendOfSecurenote.Controllers
         public NoteController(NoteContext context)
         {
             _manager = new NoteManager(context);
+       
         }
 
         // GET: api/values
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public IEnumerable<Note> Get()
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public ActionResult<Note> Get([FromBody] Note note)
         {
-            return _manager.GetAllNotes();
+           
+
+            try
+            {
+                IEnumerable<Note> notes = _manager.GetAllNotes(note.User_id);
+
+                return Ok(notes);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-
+        
         // POST api/values
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public ActionResult<Note> Post([FromBody] Note value)
         {
             try
@@ -45,7 +58,7 @@ namespace BackendOfSecurenote.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        
         // PUT api/values/5
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -58,7 +71,7 @@ namespace BackendOfSecurenote.Controllers
                 Note updateNote = _manager.UpdateNote(id, value);
                 if (updateNote == null)
                 {
-                    return NotFound(("No such Note, id:" + id));
+                    return NotFound("No such Note, id:" + id);
                 }
                 return Ok(updateNote);
             }
@@ -67,7 +80,7 @@ namespace BackendOfSecurenote.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        
         // DELETE api/values/5
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -80,7 +93,7 @@ namespace BackendOfSecurenote.Controllers
                 return NotFound("That does not exist note with that id");
             }
             return Ok(deletedNotes);
-        }
+        } 
     }
 }
 

@@ -1,4 +1,6 @@
-﻿using BackendOfSecurenote.Manager;
+﻿using System.Text;
+using BackendOfSecurenote.Manager;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,25 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSqlServer<NoteContext>(builder.Configuration.GetConnectionString("DefaultConnection"));
+builder.Services.AddSqlServer<UserContext>(builder.Configuration.GetConnectionString("DefaultConnection"));
+
+builder.Services.AddScoped<IJWTManager, JWTManager>();
+
+builder.Services.AddAuthentication().AddJwtBearer(options =>
+{
+    
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = "SecureNote",
+        ValidAudience = "SecureNote",
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
+                builder.Configuration.GetSection("AppSettings:Token").Value!))
+    }; 
+}); 
 
 var app = builder.Build();
 

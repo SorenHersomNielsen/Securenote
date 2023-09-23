@@ -15,9 +15,10 @@ namespace BackendOfSecurenote.Manager
 
 		}
 
-		public IEnumerable<Note> GetAllNotes()
+		public IEnumerable<Note> GetAllNotes(int userid)
 		{
-			return _context.note;
+
+			return _context.note.Where(x => x.User_id.Equals(userid));
 		}
 
 
