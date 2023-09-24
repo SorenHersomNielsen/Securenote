@@ -25,8 +25,6 @@ namespace BackendOfSecurenote.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public ActionResult<Note> Get([FromBody] Note note)
         {
-           
-
             try
             {
                 IEnumerable<Note> notes = _manager.GetAllNotes(note.User_id);

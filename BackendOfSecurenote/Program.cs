@@ -12,6 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSqlServer<NoteContext>(builder.Configuration.GetConnectionString("DefaultConnection"));
 builder.Services.AddSqlServer<UserContext>(builder.Configuration.GetConnectionString("DefaultConnection"));
+builder.Services.AddSqlServer<KeysContext>(builder.Configuration.GetConnectionString("DefaultConnection"));
 
 builder.Services.AddScoped<IJWTManager, JWTManager>();
 

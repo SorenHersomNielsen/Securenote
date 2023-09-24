@@ -1,19 +1,11 @@
 ﻿<Properties StartupConfiguration="{4F69367C-3C22-4685-99A0-BF9238015A60}|https">
-  <MonoDevelop.Ide.ItemProperties.BackendOfSecurenote PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/sorennielsen/Documents/Skole/Softwaresikkerhed/Securenote/BackendOfSecurenote/Controllers/NoteController.cs" relfile="Controllers/NoteController.cs" line="67" column="1" />
-      <Breakpoint file="/Users/sorennielsen/Documents/Skole/Softwaresikkerhed/Securenote/BackendOfSecurenote/Controllers/UserController.cs" relfile="Controllers/UserController.cs" line="23" column="1" />
-    </BreakpointStore>
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/UserController.cs">
+  <MonoDevelop.Ide.ItemProperties.BackendOfSecurenote PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/KeysController.cs">
     <Files>
-      <File FileName="Manager/UserManager.cs" Line="38" Column="1" />
-      <File FileName="Controllers/UserController.cs" Line="32" Column="48" />
-      <File FileName="Models/signin.cs" Line="11" Column="1" />
-      <File FileName="Manager/JWTManager.cs" Line="45" Column="1" />
+      <File FileName="Controllers/KeysController.cs" Line="39" Column="51" />
+      <File FileName="Models/Keys.cs" Line="1" Column="1" />
+      <File FileName="Manager/KeyManager.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -21,7 +13,7 @@
           <Node name="BackendOfSecurenote">
             <Node name="BackendOfSecurenote">
               <Node name="Controllers" expanded="True">
-                <Node name="UserController.cs" selected="True" />
+                <Node name="KeysController.cs" selected="True" />
               </Node>
               <Node name="Manager" expanded="True" />
               <Node name="Models" expanded="True" />
@@ -31,5 +23,9 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
 </Properties>

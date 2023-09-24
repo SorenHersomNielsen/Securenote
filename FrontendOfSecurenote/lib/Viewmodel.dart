@@ -1,4 +1,6 @@
+import 'package:frontendofsecurenote/Model/Keys.dart';
 import 'package:frontendofsecurenote/Model/Note.dart';
+import 'package:frontendofsecurenote/Model/UserResponse.dart';
 import 'package:frontendofsecurenote/NetworkMethod.dart';
 import 'package:http/http.dart' as http;
 
@@ -19,5 +21,14 @@ class Viewmodel {
 
   Future<http.Response> deleteNote(int id) {
     return networkMethod.deleteNote(id);
+  }
+
+  // skal har kigget på alle dem over denne linje
+  Future<UserResponse?> createAccount(String username, String password) {
+    return networkMethod.CreateAccount(username, password);
+  }
+
+  Future<Keys> CreateKey(String key, String user_id) {
+    return networkMethod.CreateKey(key, user_id);
   }
 }

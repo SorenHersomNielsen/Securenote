@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'package:frontendofsecurenote/Model/Keys.dart';
 import 'package:frontendofsecurenote/Model/Note.dart';
+import 'package:frontendofsecurenote/Model/UserResponse.dart';
 import 'package:http/http.dart' as http;
 
 class NetworkMethod {
@@ -51,5 +53,35 @@ class NetworkMethod {
         await http.delete(Uri.parse("https://localhost:7195/api/Note/$id"));
 
     return response;
+  }
+
+  // skal har kigge på alle op over denne linje
+
+  Future<UserResponse?> CreateAccount(String username, String password) async {
+    final response = await http.post(
+        Uri.parse("https://localhost:7195/api/User/createuser"),
+        headers: <String, String>{'Content-Type': 'application/json'},
+        body: jsonEncode(
+            <String, String>{'username': username, 'password': password}));
+    if (response.statusCode == 201) {
+      return UserResponse.fromJson(jsonDecode((response.body)));
+    }
+    if (response.statusCode == 409) {
+      return null;
+    } else {
+      throw Exception("Failded to create account");
+    }
+  }
+
+  Future<Keys> CreateKey(String key, String user_id) async {
+    final response = await http.post(
+        Uri.parse("https://localhost:7195/api/Keys"),
+        headers: <String, String>{'Content-Type': 'application/json'},
+        body: jsonEncode(<String, String>{'key': key, 'user_id': user_id}));
+    if (response.statusCode == 201) {
+      return Keys.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception("Failded to create account");
+    }
   }
 }
