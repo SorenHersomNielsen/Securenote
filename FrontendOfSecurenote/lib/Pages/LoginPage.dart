@@ -17,7 +17,7 @@ class _loginState extends State<Login> {
   late int userid;
   final _formkey = GlobalKey<FormState>();
 
- final snackballfall = const SnackBar(
+  final snackballfall = const SnackBar(
     content: Text('noget gik galt, prøve igen :('),
     backgroundColor: Colors.red,
   );
@@ -60,7 +60,6 @@ class _loginState extends State<Login> {
                 obscureText: true,
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(), labelText: 'password'),
-                minLines: 16,
                 onChanged: (value) {
                   _password = value;
                 },
@@ -84,17 +83,25 @@ class _loginState extends State<Login> {
                     if (_formkey.currentState!.validate()) {
                       final passwordhash =
                           cryptography().generateSha256(_password);
-                        viewmodel.signin(_username, passwordhash).then((value) async => {
-                        if(value != null) {
-                          await Navigator.push(context, 
-                          MaterialPageRoute(builder: 
-                          (context) => NotesPage(token: value.token, userid: value.userid, password: _password) 
-                          )
-                          )
-                        } else{
-                          ScaffoldMessenger.of(context).showSnackBar(snackballfall)
-                        }
-                        });
+                      viewmodel
+                          .signin(_username, passwordhash)
+                          .then((value) async => {
+                                if (value != null)
+                                  {
+                                    await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => NotesPage(
+                                                token: value.token,
+                                                userid: value.userid,
+                                                password: _password)))
+                                  }
+                                else
+                                  {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(snackballfall)
+                                  }
+                              });
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(snackballfall);
                     }
@@ -107,6 +114,4 @@ class _loginState extends State<Login> {
       ),
     );
   }
-
-
 }

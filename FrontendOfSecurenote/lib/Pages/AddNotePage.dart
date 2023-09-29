@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:frontendofsecurenote/Pages/NotesPage.dart';
 import 'package:frontendofsecurenote/Viewmodel.dart';
 
 class AddNotePage extends StatefulWidget {

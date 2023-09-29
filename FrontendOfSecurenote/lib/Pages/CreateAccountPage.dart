@@ -67,7 +67,6 @@ class _CreateAccountState extends State<CreateAccount> {
                 obscureText: true,
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(), labelText: 'password'),
-                minLines: 16,
                 onChanged: (value) {
                   _password = value;
                 },
