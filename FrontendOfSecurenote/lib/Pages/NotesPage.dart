@@ -1,84 +1,90 @@
 import 'package:flutter/material.dart';
+import 'package:frontendofsecurenote/Cookie.dart';
+import 'package:frontendofsecurenote/Cryptography.dart';
 import 'package:frontendofsecurenote/Model/Note.dart';
 import 'package:frontendofsecurenote/Pages/AddNotePage.dart';
 import 'package:frontendofsecurenote/Viewmodel.dart';
-import 'package:frontendofsecurenote/Pages/NotePage.dart';
 
 class NotesPage extends StatefulWidget {
-  const NotesPage({Key? key}) : super(key: key);
+  const NotesPage(
+      {Key? key,
+      required this.token,
+      required this.userid,
+      required this.password})
+      : super(key: key);
+
+  final String token;
+  final int userid;
+  final String password;
 
   @override
   _NotesState createState() => _NotesState();
 }
 
 class _NotesState extends State<NotesPage> {
-  late Future<List<Note>> futureNote;
+  late Future<List<Note>> encryptednotes;
+  late List<Note> decryptedNotes;
   final viewmodel = Viewmodel();
+  late String key;
 
   @override
-  void initState() {
+  void initState() async {
     super.initState();
-    futureNote = viewmodel.getNotes();
+    Future<String?> cookie = Cookie().readCookie(widget.userid.toString());
+    key = cryptography().decryptedAES(cookie, widget.password);
+    encryptednotes = viewmodel.getNotes(widget.userid, widget.token);
+  }
+
+  void decrypteddata(String key) async {
+    decryptedNotes =
+        await cryptography().decryptObjects(await encryptednotes, key);
   }
 
   void refreshNotes() {
     setState(() {
-      futureNote = viewmodel.getNotes();
+      //futureNote = viewmodel.getNotes();
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Securenote'),
-          automaticallyImplyLeading: false,
-          elevation: 0.0,
-          actions: <Widget>[
-            RawMaterialButton(
-              child: const Icon(Icons.add),
-              padding: const EdgeInsets.all(15.0),
-              shape: const CircleBorder(),
-              onPressed: () async {
-              await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AddNotePage(),
-                  ),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: FutureBuilder<List<Note>>(
+            future: encryptednotes,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                decrypteddata(key);
+                return ListView.builder(
+                    itemCount: decryptedNotes.length,
+                    itemBuilder: (context, int index) {
+                      return ListTile(
+                        title: Text(decryptedNotes[index].title),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.share),
+                          onPressed: () {},
+                        ),
+                        onTap: () async {},
+                      );
+                    });
+              } else if (snapshot.hasError) {
+                return Text('${snapshot.error}');
+              } else if (snapshot.data!.isEmpty) {
+                return const Center(
+                  child: Text('Intet data'),
                 );
-              },
-            ),
-          ],
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(20),
-          child: FutureBuilder<List<Note>>(
-              future: futureNote,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  List<Note> notes = snapshot.data!;
-                  return ListView.builder(
-                      itemCount: notes.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return ListTile(
-                          onTap: () async {
-                           await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => NotePage(
-                                          id: notes[index].id,
-                                          title: notes[index].title,
-                                          text: notes[index].text,
-                                        )));
-                          },
-                          title: Text(notes[index].title),
-                        );
-                      });
-                } else if (snapshot.hasError) {
-                  return Text('${snapshot.error}');
-                }
-                return CircularProgressIndicator();
-              }),
-        ));
+              }
+              return CircularProgressIndicator();
+            }),
+      ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => AddNotePage()));
+          },
+          tooltip: 'Tilføj noter',
+          child: const Icon(Icons.add)),
+    );
   }
 }

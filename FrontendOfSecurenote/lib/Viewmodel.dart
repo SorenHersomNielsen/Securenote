@@ -7,8 +7,8 @@ import 'package:http/http.dart' as http;
 class Viewmodel {
   final networkMethod = NetworkMethod();
 
-  Future<List<Note>> getNotes() {
-    return networkMethod.fetchNote();
+  Future<List<Note>> getNotes(int user_id, String authorization) {
+    return networkMethod.fetchNote(user_id, authorization);
   }
 
   Future<Note> createNote(String title, String text) {
@@ -28,7 +28,7 @@ class Viewmodel {
     return networkMethod.CreateAccount(username, password);
   }
 
-  Future<Keys> CreateKey(String key, String user_id) {
-    return networkMethod.CreateKey(key, user_id);
+  Future<Keys> CreateKey(String key, String user_id, String authorization) {
+    return networkMethod.CreateKey(key, user_id, authorization);
   }
 }

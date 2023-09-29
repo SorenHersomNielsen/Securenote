@@ -1,19 +1,20 @@
 ﻿<Properties StartupConfiguration="{4F69367C-3C22-4685-99A0-BF9238015A60}|https">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.BackendOfSecurenote PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/KeysController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/NoteController.cs">
     <Files>
-      <File FileName="Controllers/KeysController.cs" Line="39" Column="51" />
-      <File FileName="Models/Keys.cs" Line="1" Column="1" />
-      <File FileName="Manager/KeyManager.cs" Line="1" Column="1" />
+      <File FileName="Manager/KeyManager.cs" Line="31" Column="18" />
+      <File FileName="Manager/UserManager.cs" Line="1" Column="1" />
+      <File FileName="Models/UserResponse.cs" Line="9" Column="1" />
+      <File FileName="Controllers/NoteController.cs" Line="30" Column="78" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="BackendOfSecurenote">
             <Node name="BackendOfSecurenote">
-              <Node name="Controllers" expanded="True">
-                <Node name="KeysController.cs" selected="True" />
+              <Node name="Dependencies" expanded="True" />
+              <Node name="Controllers">
+                <Node name="NoteController.cs" selected="True" />
               </Node>
               <Node name="Manager" expanded="True" />
               <Node name="Models" expanded="True" />
@@ -23,9 +24,10 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.BackendOfSecurenote PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

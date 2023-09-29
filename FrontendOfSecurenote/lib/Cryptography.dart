@@ -1,9 +1,12 @@
+import 'dart:html';
 import 'dart:typed_data';
 import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart';
+import 'package:frontendofsecurenote/Model/Note.dart';
 import 'dart:convert';
-import 'package:pointycastle/pointycastle.dart' as pointy;
 import 'package:hex/hex.dart';
+
+import 'package:crypton/crypton.dart';
 
 class cryptography {
   String generateSha256(String input) {
@@ -11,19 +14,6 @@ class cryptography {
     var digest = sha256.convert(bytes);
 
     return digest.toString();
-  }
-
-  pointy.AsymmetricKeyPair<pointy.PublicKey, pointy.PrivateKey>
-      generateRSAKeyPair() {
-    final secureRandom = pointy.SecureRandom('Fortuna')
-      ..seed(pointy.KeyParameter(Uint8List(32)));
-    final keyGen = pointy.KeyGenerator('RSA')
-      ..init(pointy.ParametersWithRandom(
-          pointy.RSAKeyGeneratorParameters(BigInt.from(65537), 2048, 64),
-          secureRandom));
-
-    final keyPair = keyGen.generateKeyPair();
-    return keyPair;
   }
 
   static Encrypted? encrypted;
@@ -46,5 +36,48 @@ class cryptography {
     final encrypter = Encrypter(AES(key));
     var decrypted = encrypter.decrypt(encrypted!, iv: iv);
     return decrypted.toString();
+  }
+
+  List<String> keypair() {
+    RSAKeypair rsaKeypair =
+        RSAKeypair.fromRandom(); // Skift bitLength til din ønskede nøglelængde
+
+    final publicKey = rsaKeypair.publicKey;
+    final privateKey = rsaKeypair.privateKey;
+
+    String publicKeyString = publicKey.toString();
+    String privateKeyString = privateKey.toString();
+
+    List<String> list = [publicKeyString, privateKeyString];
+
+    return list;
+  }
+
+  Future<List<Note>> decryptObjects(List<Note> encryptedObjects, RSAkey) async {
+    List<Note> decryptedObjects = [];
+    final privateKey = RSAPrivateKey.fromString(RSAkey);
+
+    for (var encryptedObjects in encryptedObjects) {
+      String id = privateKey.decrypt(encryptedObjects.id.toString());
+      String title = privateKey.decrypt(encryptedObjects.title);
+      String text = privateKey.decrypt(encryptedObjects.text);
+      int intvalue = int.parse(id);
+
+      Note note = Note(id: intvalue, title: title, text: text);
+      decryptedObjects.add(note);
+    }
+
+    return decryptedObjects;
+  }
+
+  List<String> EncryptedNote(Note note, String key) {
+    final publicKey = RSAPublicKey.fromString(key);
+
+    final title = publicKey.encrypt(note.title);
+    final text = publicKey.encrypt(note.text);
+
+    List<String> list = [title, text];
+
+    return list;
   }
 }

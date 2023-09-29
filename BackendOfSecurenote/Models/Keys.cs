@@ -1,5 +1,4 @@
-﻿using System;
-namespace BackendOfSecurenote.Models
+﻿namespace BackendOfSecurenote.Models
 {
 	public class Keys
 	{

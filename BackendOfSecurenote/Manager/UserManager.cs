@@ -6,6 +6,7 @@ namespace BackendOfSecurenote.Manager
 	{
 
 		private readonly UserContext _context;
+        private readonly KeysContext keyscontext;
 		private readonly IConfiguration _configuration;
 	
         public UserManager(UserContext context, IConfiguration configuration)
@@ -39,8 +40,8 @@ namespace BackendOfSecurenote.Manager
 
         public UserResponse AddUser(User user)
 		{
-			bool checkUsername = _context.user.Any(x => x.Username == user.Username);
-			if (checkUsername == false)
+			var checkuser = _context.user.Where(u => u.Username == user.Username).FirstOrDefault();
+            if (checkuser == null)
 			{
                 _context.user.Add(user);
                 _context.SaveChanges();
@@ -51,10 +52,11 @@ namespace BackendOfSecurenote.Manager
 
 				string generatedToken = jWTManager.Autenticate(user.Id.ToString());
 
-				return new UserResponse { token = generatedToken, userid = id };
+
+               return new UserResponse { token = generatedToken, userid = id};
             }
 			return null;
 		}
-	}
+    }
 }
 

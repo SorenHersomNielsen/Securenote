@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using BackendOfSecurenote.Models;
+﻿using BackendOfSecurenote.Models;
 
 namespace BackendOfSecurenote.Manager
 {

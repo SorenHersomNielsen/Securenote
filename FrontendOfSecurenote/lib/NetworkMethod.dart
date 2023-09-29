@@ -5,18 +5,6 @@ import 'package:frontendofsecurenote/Model/UserResponse.dart';
 import 'package:http/http.dart' as http;
 
 class NetworkMethod {
-  Future<List<Note>> fetchNote() async {
-    final response =
-        await http.get(Uri.parse('https://localhost:7195/api/Note'));
-
-    if (response.statusCode == 200) {
-      List jsonresponse = jsonDecode(response.body);
-      return jsonresponse.map((note) => Note.fromJson(note)).toList();
-    } else {
-      throw Exception('Failed to load notes');
-    }
-  }
-
   Future<Note> createNote(String title, String text) async {
     final response =
         await http.post(Uri.parse("https://localhost:7195/api/Note"),
@@ -73,15 +61,36 @@ class NetworkMethod {
     }
   }
 
-  Future<Keys> CreateKey(String key, String user_id) async {
+  Future<Keys> CreateKey(
+      String key, String user_id, String Authorization) async {
     final response = await http.post(
         Uri.parse("https://localhost:7195/api/Keys"),
-        headers: <String, String>{'Content-Type': 'application/json'},
-        body: jsonEncode(<String, String>{'key': key, 'user_id': user_id}));
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $Authorization'
+        },
+        body: jsonEncode(
+            <String, String>{'key': key.toString(), 'user_id': user_id}));
     if (response.statusCode == 201) {
       return Keys.fromJson(jsonDecode(response.body));
     } else {
       throw Exception("Failded to create account");
+    }
+  }
+
+  Future<List<Note>> fetchNote(int user_id, String Authorization) async {
+    final response = await http.get(
+      Uri.parse('https://localhost:7195/api/Note/$user_id'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $Authorization'
+      },
+    );
+    if (response.statusCode == 200) {
+      List jsonresponse = jsonDecode(response.body);
+      return jsonresponse.map((note) => Note.fromJson(note)).toList();
+    } else {
+      throw Exception('Failed to load notes');
     }
   }
 }

@@ -53,7 +53,7 @@ class _AddNotePageState extends State<AddNotePage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               ElevatedButton(
-                onPressed: () async{
+                onPressed: () async {
                   if (title.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
@@ -62,18 +62,12 @@ class _AddNotePageState extends State<AddNotePage> {
                       ),
                     );
                   } else if (text.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text("Manglende tekst"),
                         backgroundColor: Colors.red));
                   } else {
                     Viewmodel().createNote(title, text);
-                   await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => NotesPage(),
-                  ),
-                );
+                    Navigator.pop(context);
                   }
                 },
                 child: const Text('Gem'),

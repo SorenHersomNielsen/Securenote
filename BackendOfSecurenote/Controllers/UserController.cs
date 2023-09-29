@@ -46,7 +46,7 @@ namespace BackendOfSecurenote.Controllers
             try
             {
                 UserResponse checkuser = _manager.AddUser(user);
-                if (checkuser.token == null)
+                if (checkuser == null)
                 {
                     return Conflict();
                 }

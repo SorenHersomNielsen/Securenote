@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:frontendofsecurenote/Cookie.dart';
 import 'package:frontendofsecurenote/Cryptography.dart';
+import 'package:frontendofsecurenote/Pages/NotesPage.dart';
 import 'package:frontendofsecurenote/Viewmodel.dart';
-import 'package:pointycastle/pointycastle.dart';
 
 class CreateAccount extends StatefulWidget {
   const CreateAccount({Key? key}) : super(key: key);
@@ -18,9 +18,11 @@ class _CreateAccountState extends State<CreateAccount> {
   late String _password;
   late String _token;
   late int userid;
-  late AsymmetricKeyPair<PublicKey, PrivateKey> keypair;
   late String encryptAES;
   final _formkey = GlobalKey<FormState>();
+  late String publickey;
+  late String privateKey;
+  late List<String> keypair;
 
   final snackballfall = const SnackBar(
     content: Text('noget gik galt, prøve igen :('),
@@ -65,14 +67,15 @@ class _CreateAccountState extends State<CreateAccount> {
                 obscureText: true,
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(), labelText: 'password'),
+                minLines: 16,
                 onChanged: (value) {
                   _password = value;
                 },
                 validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Være at skrive et password';
+                  if (value!.length < 16) {
+                    return null;
                   }
-                  return null;
+                  return 'Være at skrive et password';
                 },
               ),
               const SizedBox(height: 10),
@@ -91,21 +94,26 @@ class _CreateAccountState extends State<CreateAccount> {
 
                       viewmodel
                           .createAccount(_username, passwordhash)
-                          .then((value) => {
+                          .then((value) async => {
                                 if (value != null)
                                   {
                                     _token = value.token,
                                     userid = value.userid,
-                                    keypair =
-                                        cryptography().generateRSAKeyPair(),
+                                    keypair = cryptography().keypair(),
                                     viewmodel.CreateKey(
-                                        keypair.publicKey.toString(),
-                                        userid.toString()),
-                                    encryptAES = cryptography().encryptAES(
-                                        keypair.privateKey.toString(),
-                                        _password),
+                                        keypair[0], userid.toString(), _token),
+                                    encryptAES = cryptography()
+                                        .encryptAES(keypair[0], _password),
                                     cookie.setCookie(
                                         userid.toString(), encryptAES),
+                                    await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => NotesPage(
+                                              token: _token,
+                                              userid: userid,
+                                              password: _password),
+                                        ))
                                   }
                                 else
                                   {

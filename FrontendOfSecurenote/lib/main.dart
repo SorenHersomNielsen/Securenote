@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:frontendofsecurenote/Pages/CreateAccountPage.dart';
 import 'package:frontendofsecurenote/Pages/NotesPage.dart';
 
 void main() {
-  runApp(MaterialApp(home: NotesPage()));
+  runApp(MaterialApp(home: CreateAccount()));
 }

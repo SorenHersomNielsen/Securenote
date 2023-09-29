@@ -69,17 +69,12 @@ class _NotePageState extends State<NotePage> {
                 onPressed: () async {
                   Viewmodel().updateNote(widget.id, title, text);
                   ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Noter updateret"),
-          backgroundColor: Colors.green,
-        ),
-      );
-                  await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => NotesPage(),
-                  ),
-                );
+                    const SnackBar(
+                      content: Text("Noter updateret"),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
+                  Navigator.pop(context);
                 },
                 child: const Text('Gem'),
               ),
@@ -87,17 +82,12 @@ class _NotePageState extends State<NotePage> {
                 onPressed: () async {
                   Viewmodel().deleteNote(widget.id);
                   ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Noter er slettet"),
-          backgroundColor: Colors.green,
-        ),
-      );
-                await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => NotesPage(),
-                  ),
-                );
+                    const SnackBar(
+                      content: Text("Noter er slettet"),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
+                  Navigator.pop(context);
                 },
                 child: const Text('Slet'),
               ),
