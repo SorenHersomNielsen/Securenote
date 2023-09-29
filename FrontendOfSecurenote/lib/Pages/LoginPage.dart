@@ -1,30 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:frontendofsecurenote/Cookie.dart';
 import 'package:frontendofsecurenote/Cryptography.dart';
 import 'package:frontendofsecurenote/Pages/NotesPage.dart';
 import 'package:frontendofsecurenote/Viewmodel.dart';
 
-class CreateAccount extends StatefulWidget {
-  const CreateAccount({Key? key}) : super(key: key);
+class Login extends StatefulWidget {
+  const Login({Key? key}) : super(key: key);
 
   @override
-  _CreateAccountState createState() => _CreateAccountState();
+  _loginState createState() => _loginState();
 }
 
-class _CreateAccountState extends State<CreateAccount> {
+class _loginState extends State<Login> {
   final viewmodel = Viewmodel();
-  final cookie = Cookie();
   late String _username;
   late String _password;
-  late String _token;
   late int userid;
-  late String encryptAES;
   final _formkey = GlobalKey<FormState>();
-  late String publickey;
-  late String privateKey;
-  late List<String> keypair;
 
-  final snackballfall = const SnackBar(
+ final snackballfall = const SnackBar(
     content: Text('noget gik galt, prøve igen :('),
     backgroundColor: Colors.red,
   );
@@ -91,36 +84,17 @@ class _CreateAccountState extends State<CreateAccount> {
                     if (_formkey.currentState!.validate()) {
                       final passwordhash =
                           cryptography().generateSha256(_password);
-
-                      viewmodel
-                          .createAccount(_username, passwordhash)
-                          .then((value) async => {
-                                if (value != null)
-                                  {
-                                    _token = value.token,
-                                    userid = value.userid,
-                                    keypair = cryptography().keypair(),
-                                    viewmodel.CreateKey(
-                                        keypair[0], userid.toString(), _token),
-                                    encryptAES = cryptography()
-                                        .encryptAES(keypair[0], _password),
-                                    cookie.setCookie(
-                                        userid.toString(), encryptAES),
-                                    await Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => NotesPage(
-                                              token: _token,
-                                              userid: userid,
-                                              password: _password),
-                                        ))
-                                  }
-                                else
-                                  {
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(snackballfall)
-                                  }
-                              });
+                        viewmodel.signin(_username, passwordhash).then((value) async => {
+                        if(value != null) {
+                          await Navigator.push(context, 
+                          MaterialPageRoute(builder: 
+                          (context) => NotesPage(token: value.token, userid: value.userid, password: _password) 
+                          )
+                          )
+                        } else{
+                          ScaffoldMessenger.of(context).showSnackBar(snackballfall)
+                        }
+                        });
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(snackballfall);
                     }
@@ -133,4 +107,6 @@ class _CreateAccountState extends State<CreateAccount> {
       ),
     );
   }
+
+
 }

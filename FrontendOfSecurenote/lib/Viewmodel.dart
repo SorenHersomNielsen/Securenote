@@ -31,4 +31,8 @@ class Viewmodel {
   Future<Keys> CreateKey(String key, String user_id, String authorization) {
     return networkMethod.CreateKey(key, user_id, authorization);
   }
+
+  Future<UserResponse?> signin (String username, String password) {
+      return networkMethod.signin(username, password);
+  }
 }

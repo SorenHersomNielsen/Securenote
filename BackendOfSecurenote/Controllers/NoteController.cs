@@ -23,11 +23,11 @@ namespace BackendOfSecurenote.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public ActionResult<Note> Get([FromBody] Note note)
+        public ActionResult<Note> Get(int userid)
         {
             try
             {
-                IEnumerable<Note> notes = _manager.GetAllNotes(note.User_id);
+                IEnumerable<Note> notes = _manager.GetAllNotes(userid);
 
                 return Ok(notes);
             }

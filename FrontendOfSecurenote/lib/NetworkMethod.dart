@@ -93,4 +93,18 @@ class NetworkMethod {
       throw Exception('Failed to load notes');
     }
   }
+
+  Future<UserResponse?> signin(String username, String password) async{
+    final response =  await http.post(
+      Uri.parse('https://localhost:7195/api/User/signin'), 
+      headers: <String, String>{
+        'Content-Type': 'application/json'
+      },
+    );
+    if(response.statusCode == 201) {
+      return UserResponse.fromJson(jsonDecode(response.body));
+    } else {
+      return null;
+    }
+  }
 }
