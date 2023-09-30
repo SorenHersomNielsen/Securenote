@@ -36,7 +36,7 @@ class _loginState extends State<Login> {
             key: _formkey,
             child: Column(children: <Widget>[
               const Text(
-                'Opret bruger',
+                'Log in',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 40, color: Colors.black),
               ),
@@ -64,10 +64,10 @@ class _loginState extends State<Login> {
                   _password = value;
                 },
                 validator: (value) {
-                  if (value!.length < 16) {
-                    return null;
+                  if (value!.isEmpty) {
+                    return 'Være venligt at skrive et password';
                   }
-                  return 'Være at skrive et password';
+                  return null;
                 },
               ),
               const SizedBox(height: 10),
@@ -76,7 +76,7 @@ class _loginState extends State<Login> {
                   key: const Key('button'),
                   style: TextButton.styleFrom(backgroundColor: Colors.black),
                   child: const Text(
-                    'Opret bruger',
+                    'Log in',
                     style: TextStyle(color: Colors.white),
                   ),
                   onPressed: () {

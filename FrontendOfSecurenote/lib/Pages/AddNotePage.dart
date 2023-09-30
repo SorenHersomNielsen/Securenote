@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:frontendofsecurenote/Cryptography.dart';
+import 'package:frontendofsecurenote/Model/CreateNote.dart';
+import 'package:frontendofsecurenote/Model/Keys.dart';
 import 'package:frontendofsecurenote/Viewmodel.dart';
 
 class AddNotePage extends StatefulWidget {
-  const AddNotePage({Key? key}) : super(key: key);
+  const AddNotePage({Key? key, required this.token, required this.user_id})
+      : super(key: key);
+
+  final String token;
+  final int user_id;
+
   @override
   _AddNotePageState createState() => _AddNotePageState();
 }
@@ -11,6 +19,17 @@ class _AddNotePageState extends State<AddNotePage> {
   final maxLines = 5;
   late String title = "";
   late String text = "";
+  late Future<Keys> keys;
+  late Keys key;
+  late String keyid;
+  late CreateNote encryptdata;
+  late List<String> encrypteddata;
+
+  void readkey() async {
+    keys = Viewmodel().getkey(widget.user_id, widget.token);
+    key = await keys.then((value) => value);
+    keyid = key.key;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +75,7 @@ class _AddNotePageState extends State<AddNotePage> {
                   if (title.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content: Text("Manglende titel"),
+                        content: Text("Manglende title"),
                         backgroundColor: Colors.red,
                       ),
                     );
@@ -65,7 +84,11 @@ class _AddNotePageState extends State<AddNotePage> {
                         content: Text("Manglende tekst"),
                         backgroundColor: Colors.red));
                   } else {
-                    Viewmodel().createNote(title, text);
+                    encryptdata = CreateNote(title: title, text: text);
+                    encrypteddata =
+                        cryptography().EncryptedNote(encryptdata, keyid);
+                    Viewmodel().createNote(encrypteddata[0], encrypteddata[1],
+                        widget.token, widget.user_id);
                     Navigator.pop(context);
                   }
                 },

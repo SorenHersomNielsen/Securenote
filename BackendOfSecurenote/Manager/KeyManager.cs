@@ -15,16 +15,16 @@ namespace BackendOfSecurenote.Manager
 
 		}
 
-		public string getkey(int userid)
+		public Keys getkey(int userid)
 		{
 			Keys key = _context.keys.SingleOrDefault(x => x.user_id == userid);
 			if (key == null)
 			{
 				return null;
 			}
-			string userkey = key.key;
+			//string userkey = key.key;
 
-			return userkey;
+			return key;
 
         }
 

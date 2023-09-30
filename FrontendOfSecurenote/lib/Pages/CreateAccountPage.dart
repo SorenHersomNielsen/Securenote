@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:frontendofsecurenote/Cookie.dart';
 import 'package:frontendofsecurenote/Cryptography.dart';
 import 'package:frontendofsecurenote/Pages/NotesPage.dart';
 import 'package:frontendofsecurenote/Viewmodel.dart';
@@ -13,7 +12,6 @@ class CreateAccount extends StatefulWidget {
 
 class _CreateAccountState extends State<CreateAccount> {
   final viewmodel = Viewmodel();
-  final cookie = Cookie();
   late String _username;
   late String _password;
   late String _token;
@@ -23,7 +21,6 @@ class _CreateAccountState extends State<CreateAccount> {
   late String publickey;
   late String privateKey;
   late List<String> keypair;
-
   final snackballfall = const SnackBar(
     content: Text('noget gik galt, prøve igen :('),
     backgroundColor: Colors.red,
@@ -71,10 +68,10 @@ class _CreateAccountState extends State<CreateAccount> {
                   _password = value;
                 },
                 validator: (value) {
-                  if (value!.length < 16) {
-                    return null;
+                  if (value!.length <= 15) {
+                    return 'Være at skrive et password';
                   }
-                  return 'Være at skrive et password';
+                  return null;
                 },
               ),
               const SizedBox(height: 10),
@@ -99,12 +96,10 @@ class _CreateAccountState extends State<CreateAccount> {
                                     _token = value.token,
                                     userid = value.userid,
                                     keypair = cryptography().keypair(),
-                                    viewmodel.CreateKey(
-                                        keypair[0], userid.toString(), _token),
                                     encryptAES = cryptography()
                                         .encryptAES(keypair[0], _password),
-                                    cookie.setCookie(
-                                        userid.toString(), encryptAES),
+                                    viewmodel.CreateKey(keypair[0], encryptAES,
+                                        userid.toString(), _token),
                                     await Navigator.push(
                                         context,
                                         MaterialPageRoute(

@@ -1,9 +1,9 @@
 import 'dart:typed_data';
 import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart';
+import 'package:frontendofsecurenote/Model/CreateNote.dart';
 import 'package:frontendofsecurenote/Model/Note.dart';
 import 'dart:convert';
-import 'package:hex/hex.dart';
 
 import 'package:crypton/crypton.dart';
 
@@ -17,24 +17,20 @@ class cryptography {
 
   static Encrypted? encrypted;
 
-  String encryptAES(plaintext, String password) {
-    final key = Key.fromUtf8(password);
-    String hexString = "1a4b5c8e3f6d7a2b9c4e7f1a2d5b8c9";
-    List<int> bytes = HEX.decode(hexString);
-    final iv = IV(Uint8List.fromList(bytes));
-    final encrypter = Encrypter(AES(key));
-    Encrypted? encrypted = encrypter.encrypt(plaintext, iv: iv);
-    return encrypted.toString();
+  String encryptAES(String data, String password) {
+    final key = Uint8List.fromList(sha256.convert(utf8.encode(password)).bytes);
+    final iv = IV(Uint8List(16)); // Initialiseringsvektoren
+    final encrypter = Encrypter(AES(Key(key)));
+    final encrypted = encrypter.encrypt(data, iv: iv);
+    return encrypted.base64;
   }
 
-  String decryptedAES(text, String password) {
-    final key = Key.fromUtf8(password);
-    String hexString = "1a4b5c8e3f6d7a2b9c4e7f1a2d5b8c9";
-    List<int> bytes = HEX.decode(hexString);
-    final iv = IV(Uint8List.fromList(bytes));
-    final encrypter = Encrypter(AES(key));
-    var decrypted = encrypter.decrypt(encrypted!, iv: iv);
-    return decrypted.toString();
+  String decryptAES(String encryptedData, String password) {
+    final key = Uint8List.fromList(sha256.convert(utf8.encode(password)).bytes);
+    final iv = IV(Uint8List(16)); // Initialiseringsvektoren
+    final encrypter = Encrypter(AES(Key(key)));
+    final decrypted = encrypter.decrypt64(encryptedData, iv: iv);
+    return decrypted;
   }
 
   List<String> keypair() {
@@ -56,10 +52,10 @@ class cryptography {
     List<Note> decryptedObjects = [];
     final privateKey = RSAPrivateKey.fromString(RSAkey);
 
-    for (var encryptedObjects in encryptedObjects) {
-      String id = privateKey.decrypt(encryptedObjects.id.toString());
-      String title = privateKey.decrypt(encryptedObjects.title);
-      String text = privateKey.decrypt(encryptedObjects.text);
+    for (var encryptedObject in encryptedObjects) {
+      String id = privateKey.decrypt(encryptedObject.id.toString());
+      String title = privateKey.decrypt(encryptedObject.title);
+      String text = privateKey.decrypt(encryptedObject.text);
       int intvalue = int.parse(id);
 
       Note note = Note(id: intvalue, title: title, text: text);
@@ -69,7 +65,7 @@ class cryptography {
     return decryptedObjects;
   }
 
-  List<String> EncryptedNote(Note note, String key) {
+  List<String> EncryptedNote(CreateNote note, String key) {
     final publicKey = RSAPublicKey.fromString(key);
 
     final title = publicKey.encrypt(note.title);

@@ -24,7 +24,7 @@ namespace BackendOfSecurenote.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public ActionResult<Keys> Get(int id)
         {
-            string key = _manager.getkey(id);
+            Keys key = _manager.getkey(id);
             if (key == null)
             {
                 return NotFound();

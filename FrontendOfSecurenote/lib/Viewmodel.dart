@@ -11,8 +11,9 @@ class Viewmodel {
     return networkMethod.fetchNote(user_id, authorization);
   }
 
-  Future<Note> createNote(String title, String text) {
-    return networkMethod.createNote(title, text);
+  Future<Note> createNote(
+      String title, String text, String token, int user_id) {
+    return networkMethod.createNote(title, text, token, user_id);
   }
 
   Future<Note> updateNote(int id, String title, String text) {
@@ -28,11 +29,16 @@ class Viewmodel {
     return networkMethod.CreateAccount(username, password);
   }
 
-  Future<Keys> CreateKey(String key, String user_id, String authorization) {
-    return networkMethod.CreateKey(key, user_id, authorization);
+  Future<Keys> CreateKey(
+      String key, String Aes, String user_id, String authorization) {
+    return networkMethod.CreateKey(key, Aes, user_id, authorization);
   }
 
-  Future<UserResponse?> signin (String username, String password) {
-      return networkMethod.signin(username, password);
+  Future<UserResponse?> signin(String username, String password) {
+    return networkMethod.signin(username, password);
+  }
+
+  Future<Keys> getkey(int user_id, String token) {
+    return networkMethod.getKey(user_id, token);
   }
 }

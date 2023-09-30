@@ -5,20 +5,6 @@ import 'package:frontendofsecurenote/Model/UserResponse.dart';
 import 'package:http/http.dart' as http;
 
 class NetworkMethod {
-  Future<Note> createNote(String title, String text) async {
-    final response =
-        await http.post(Uri.parse("https://localhost:7195/api/Note"),
-            headers: <String, String>{
-              'Content-Type': 'application/json',
-            },
-            body: jsonEncode(<String, String>{'title': title, 'text': text}));
-    if (response.statusCode == 201) {
-      return Note.fromJson(jsonDecode(response.body));
-    } else {
-      throw Exception("Failded to create note");
-    }
-  }
-
   Future<Note> updateNote(int id, String title, String text) async {
     var body = jsonEncode({"title": title, "text": text});
 
@@ -62,7 +48,7 @@ class NetworkMethod {
   }
 
   Future<Keys> CreateKey(
-      String key, String user_id, String Authorization) async {
+      String key, String Aes, String user_id, String Authorization) async {
     final response = await http.post(
         Uri.parse("https://localhost:7195/api/Keys"),
         headers: <String, String>{
@@ -70,7 +56,7 @@ class NetworkMethod {
           'Authorization': 'Bearer $Authorization'
         },
         body: jsonEncode(
-            <String, String>{'key': key.toString(), 'user_id': user_id}));
+            <String, String>{'key': key, 'Aes': Aes, 'user_id': user_id}));
     if (response.statusCode == 201) {
       return Keys.fromJson(jsonDecode(response.body));
     } else {
@@ -80,7 +66,7 @@ class NetworkMethod {
 
   Future<List<Note>> fetchNote(int user_id, String Authorization) async {
     final response = await http.get(
-      Uri.parse('https://localhost:7195/api/Note/$user_id'),
+      Uri.parse('https://localhost:7195/api/Note?userid=$user_id'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $Authorization'
@@ -94,17 +80,48 @@ class NetworkMethod {
     }
   }
 
-  Future<UserResponse?> signin(String username, String password) async{
-    final response =  await http.post(
-      Uri.parse('https://localhost:7195/api/User/signin'), 
-      headers: <String, String>{
-        'Content-Type': 'application/json'
-      },
-    );
-    if(response.statusCode == 201) {
+  Future<UserResponse?> signin(String username, String password) async {
+    final response = await http.post(
+        Uri.parse('https://localhost:7195/api/User/signin'),
+        headers: <String, String>{'Content-Type': 'application/json'},
+        body: jsonEncode(
+            <String, String>{'username': username, 'password': password}));
+
+    if (response.statusCode == 201) {
       return UserResponse.fromJson(jsonDecode(response.body));
     } else {
       return null;
+    }
+  }
+
+  Future<Note> createNote(
+      String title, String text, String token, int user_id) async {
+    final response = await http.post(
+        Uri.parse("https://localhost:7195/api/Note"),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token'
+        },
+        body: jsonEncode(<String, String>{
+          'title': title,
+          'text': text,
+          'user_id': user_id.toString()
+        }));
+    if (response.statusCode == 201) {
+      return Note.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception("Failded to create note");
+    }
+  }
+
+  Future<Keys> getKey(int user_id, String token) async {
+    final response = await http.get(
+        Uri.parse('https://localhost:7195/api/Keys/$user_id'),
+        headers: <String, String>{'Authorization': 'Bearer $token'});
+    if (response.statusCode == 200) {
+      return Keys.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception("Failded to get key");
     }
   }
 }

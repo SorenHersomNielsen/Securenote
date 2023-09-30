@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:frontendofsecurenote/Pages/CreateAccountPage.dart';
 import 'package:frontendofsecurenote/Routes.dart';
 
 void main() {
+  runApp(MaterialApp(home: CreateAccount()));
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
