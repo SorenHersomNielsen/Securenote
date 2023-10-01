@@ -18,24 +18,24 @@ class cryptography {
   static Encrypted? encrypted;
 
   String encryptAES(String data, String password) {
-    final key = Uint8List.fromList(sha256.convert(utf8.encode(password)).bytes);
-    final iv = IV(Uint8List(16)); // Initialiseringsvektoren
-    final encrypter = Encrypter(AES(Key(key)));
+    final key = Key.fromUtf8(password);
+    final iv = IV(Uint8List(16)); 
+    final encrypter = Encrypter(AES(key));
     final encrypted = encrypter.encrypt(data, iv: iv);
     return encrypted.base64;
   }
 
   String decryptAES(String encryptedData, String password) {
-    final key = Uint8List.fromList(sha256.convert(utf8.encode(password)).bytes);
-    final iv = IV(Uint8List(16)); // Initialiseringsvektoren
-    final encrypter = Encrypter(AES(Key(key)));
+    final key = Key.fromUtf8(password);
+    final iv = IV(Uint8List(16)); 
+    final encrypter = Encrypter(AES(key));
     final decrypted = encrypter.decrypt64(encryptedData, iv: iv);
     return decrypted;
   }
 
   List<String> keypair() {
     RSAKeypair rsaKeypair =
-        RSAKeypair.fromRandom(); // Skift bitLength til din ønskede nøglelængde
+        RSAKeypair.fromRandom(); 
 
     final publicKey = rsaKeypair.publicKey;
     final privateKey = rsaKeypair.privateKey;
@@ -48,21 +48,22 @@ class cryptography {
     return list;
   }
 
-  Future<List<Note>> decryptObjects(List<Note> encryptedObjects, RSAkey) async {
+  Future<List<Note>?> decryptObjects(List<Note> encryptedObjects,String RSAkey) async {
+
     List<Note> decryptedObjects = [];
     final privateKey = RSAPrivateKey.fromString(RSAkey);
 
-    for (var encryptedObject in encryptedObjects) {
-      String id = privateKey.decrypt(encryptedObject.id.toString());
+    if(encryptedObjects.isEmpty) {
+      return null;
+    } else {
+       for (var encryptedObject in encryptedObjects) {
       String title = privateKey.decrypt(encryptedObject.title);
       String text = privateKey.decrypt(encryptedObject.text);
-      int intvalue = int.parse(id);
-
-      Note note = Note(id: intvalue, title: title, text: text);
+      Note note = Note(id: encryptedObject.id, title: title, text: text);
       decryptedObjects.add(note);
     }
-
     return decryptedObjects;
+    }
   }
 
   List<String> EncryptedNote(CreateNote note, String key) {

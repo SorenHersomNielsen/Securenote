@@ -97,7 +97,7 @@ class _CreateAccountState extends State<CreateAccount> {
                                     userid = value.userid,
                                     keypair = cryptography().keypair(),
                                     encryptAES = cryptography()
-                                        .encryptAES(keypair[0], _password),
+                                        .encryptAES(keypair[1], _password),
                                     viewmodel.CreateKey(keypair[0], encryptAES,
                                         userid.toString(), _token),
                                     await Navigator.push(

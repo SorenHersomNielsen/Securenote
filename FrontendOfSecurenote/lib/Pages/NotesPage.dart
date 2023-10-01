@@ -4,6 +4,7 @@ import 'package:frontendofsecurenote/Model/Keys.dart';
 import 'package:frontendofsecurenote/Model/Note.dart';
 import 'package:frontendofsecurenote/Pages/AddNotePage.dart';
 import 'package:frontendofsecurenote/Viewmodel.dart';
+import 'dart:async';
 
 class NotesPage extends StatefulWidget {
   const NotesPage(
@@ -24,43 +25,45 @@ class NotesPage extends StatefulWidget {
 class _NotesState extends State<NotesPage> {
   late Future<List<Note>> encryptednotes;
   late Future<Keys> keys;
-  late List<Note> decryptedNotes = [];
+  late List<Note>? decryptedNotes = [];
   final viewmodel = Viewmodel();
   late Keys key;
   late String encryptetkey;
   late String decryptedkey = "";
+  late List<Note> listofnotes = [];
 
   @override
   void initState() {
     super.initState();
 
     getkey();
-    _loadNotes();
   }
+
+
 
   void getkey() async {
     keys = viewmodel.getkey(widget.userid, widget.token);
     key = await keys.then((value) => value);
     encryptetkey = key.aes;
+
     decryptedkey = cryptography().decryptAES(encryptetkey, widget.password);
+    _loadNotes();
   }
 
   void _loadNotes() async {
     encryptednotes = viewmodel.getNotes(widget.userid, widget.token);
-    encryptednotes.then((value) {
-      if (value != []) {
-        print('ingen');
-      } else {
-        decrypteddata(decryptedkey);
-      }
-    });
-  }
 
-  void decrypteddata(String? key) async {
-    if (key != null) {
-      decryptedNotes =
-          await cryptography().decryptObjects(await encryptednotes, key);
+    List<Note> notes = await encryptednotes;
+
+    for(var note in notes) {
+      Note notes = Note(id: note.id, title: note.title, text: note.title);
+      listofnotes.add(notes);
     }
+     decryptedNotes =
+          await cryptography().decryptObjects(listofnotes, decryptedkey);
+          setState(() {
+            decryptedNotes = decryptedNotes;
+          });
   }
 
   void refreshNotes() {
@@ -78,21 +81,25 @@ class _NotesState extends State<NotesPage> {
             future: Future.value(decryptedNotes),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                if (decryptedNotes.isEmpty) {
+                if (decryptedNotes!.isEmpty) {
                   return const Center(
                     child: Text('Intet data'),
                   );
                 } else {
                   return ListView.builder(
-                      itemCount: decryptedNotes.length,
+                      itemCount: decryptedNotes!.length,
                       itemBuilder: (context, int index) {
                         return ListTile(
-                          title: Text(decryptedNotes[index]!.title),
+                          title: Text(decryptedNotes![index].title),
                           trailing: IconButton(
                             icon: const Icon(Icons.share),
-                            onPressed: () {},
+                            onPressed: () {
+                              // TODO bygge delning funktion
+                            },
                           ),
-                          onTap: () async {},
+                          onTap: () async {
+                            // TODO bygge vejen til at ændre data;
+                          },
                         );
                       });
                 }
@@ -110,6 +117,8 @@ class _NotesState extends State<NotesPage> {
                     builder: (context) => AddNotePage(
                           token: widget.token,
                           user_id: widget.userid,
+                          privatekey: key.key,
+                          password: widget.password,
                         )));
           },
           tooltip: 'Tilføj noter',
