@@ -5,14 +5,15 @@ import 'package:frontendofsecurenote/Model/UserResponse.dart';
 import 'package:http/http.dart' as http;
 
 class NetworkMethod {
-  Future<Note> updateNote(int id, String title, String text, int user_id, String token) async {
+  Future<Note> updateNote(
+      int id, String title, String text, int user_id, String token) async {
     var body = jsonEncode({"title": title, "text": text, "user_id": user_id});
 
     final response =
         await http.put(Uri.parse("https://localhost:7195/api/Note/$id"),
             headers: <String, String>{
               'Content-Type': 'application/json; charset=UTF-8',
-               'Authorization': 'Bearer $token'
+              'Authorization': 'Bearer $token'
             },
             body: body);
 
@@ -24,15 +25,13 @@ class NetworkMethod {
   }
 
   Future<http.Response> deleteNote(int id, String token) async {
-    final http.Response response =
-        await http.delete(Uri.parse("https://localhost:7195/api/Note/$id"),
-           headers: <String, String>{
-               'Authorization': 'Bearer $token'
-            },);
+    final http.Response response = await http.delete(
+      Uri.parse("https://localhost:7195/api/Note/$id"),
+      headers: <String, String>{'Authorization': 'Bearer $token'},
+    );
 
     return response;
   }
-
 
   Future<UserResponse?> CreateAccount(String username, String password) async {
     final response = await http.post(
@@ -120,6 +119,17 @@ class NetworkMethod {
   Future<Keys> getKey(int user_id, String token) async {
     final response = await http.get(
         Uri.parse('https://localhost:7195/api/Keys/$user_id'),
+        headers: <String, String>{'Authorization': 'Bearer $token'});
+    if (response.statusCode == 200) {
+      return Keys.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception("Failded to get key");
+    }
+  }
+
+  Future<Keys> getKeyByUsername(String username, String token) async {
+    final response = await http.get(
+        Uri.parse('https://localhost:7195/api/Keys/sharing/$username'),
         headers: <String, String>{'Authorization': 'Bearer $token'});
     if (response.statusCode == 200) {
       return Keys.fromJson(jsonDecode(response.body));

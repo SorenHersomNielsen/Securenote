@@ -5,12 +5,16 @@ import 'package:frontendofsecurenote/Model/Keys.dart';
 import 'package:frontendofsecurenote/Viewmodel.dart';
 
 class AddNotePage extends StatefulWidget {
-  const AddNotePage({Key? key, required this.token, required this.user_id, required this.privatekey})
+  const AddNotePage(
+      {Key? key,
+      required this.token,
+      required this.user_id,
+      required this.privatekey})
       : super(key: key);
 
   final String token;
   final int user_id;
-  final String privatekey; 
+  final String privatekey;
 
   @override
   _AddNotePageState createState() => _AddNotePageState();
@@ -78,18 +82,17 @@ class _AddNotePageState extends State<AddNotePage> {
                         backgroundColor: Colors.red));
                   } else {
                     encryptdata = Encryptnote(title: title, text: text);
-                    encryptdata =
-                        cryptography().encryptNote(encryptdata, widget.privatekey);
-
+                    encryptdata = cryptography()
+                        .encryptNote(encryptdata, widget.privatekey);
 
                     Viewmodel().createNote(encryptdata.title, encryptdata.text,
                         widget.token, widget.user_id);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Noter er oprettet"),
-                      backgroundColor: Colors.green,
-                    ),
-                  );
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Noter er oprettet"),
+                        backgroundColor: Colors.green,
+                      ),
+                    );
                   }
                 },
                 child: const Text('Gem'),

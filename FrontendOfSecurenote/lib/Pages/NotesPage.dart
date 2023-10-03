@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontendofsecurenote/Cryptography.dart';
+import 'package:frontendofsecurenote/Model/Encryptnote.dart';
 import 'package:frontendofsecurenote/Model/Keys.dart';
 import 'package:frontendofsecurenote/Model/Note.dart';
 import 'package:frontendofsecurenote/Pages/AddNotePage.dart';
@@ -40,8 +41,6 @@ class _NotesState extends State<NotesPage> {
     getkey();
   }
 
-
-
   void getkey() async {
     keys = viewmodel.getkey(widget.userid, widget.token);
     key = await keys.then((value) => value);
@@ -56,23 +55,71 @@ class _NotesState extends State<NotesPage> {
 
     List<Note> notes = await encryptednotes;
 
-    
-    for(var note in notes) {
+    for (var note in notes) {
       Note notes = Note(id: note.id, title: note.title, text: note.text);
       listofnotes.add(notes);
-    } 
-     decryptedNotes =
-          await cryptography().decryptObjects(notes, decryptedkey);
-          setState(() {
-            decryptedNotes = decryptedNotes;
-          });
-
+    }
+    decryptedNotes = await cryptography().decryptObjects(notes, decryptedkey);
+    setState(() {
+      decryptedNotes = decryptedNotes;
+    });
   }
 
-  void refreshNotes() {
-    setState(() {
-      //futureNote = viewmodel.getNotes();
-    });
+  void _showDialog(BuildContext context, String title, String text) {
+    late String username;
+    late Keys key;
+    late Encryptnote encryptdata;
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('del noter'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFormField(
+                  key: const Key('Brugernavn'),
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(), labelText: 'Brugernavn'),
+                  onChanged: (value) {
+                    username = value;
+                  },
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Være venligt at skrive et password';
+                    }
+                    return null;
+                  },
+                ),
+                const Text(
+                    'Du kan dele denne noter ved at skrive brugernavn på personen, du ønsker at dele noteren med.')
+              ],
+            ),
+            actions: <Widget>[
+              TextButton(
+                  onPressed: () => Navigator.pop(context, 'Annuller'),
+                  child: const Text('Annuller')),
+              TextButton(
+                onPressed: () async {
+                  key =
+                      await viewmodel.getKeyByUsername(username, widget.token);
+                  encryptdata = Encryptnote(title: title, text: text);
+                  encryptdata =
+                      cryptography().encryptNote(encryptdata, key.key);
+                  Viewmodel().createNote(encryptdata.title, encryptdata.text,
+                      widget.token, key.user_id);
+                  Navigator.pop(context, 'Annuller');
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text("Noter er delt"),
+                    backgroundColor: Colors.green,
+                  ));
+                },
+                child: const Text('del'),
+              )
+            ],
+          );
+        });
   }
 
   @override
@@ -97,15 +144,21 @@ class _NotesState extends State<NotesPage> {
                           trailing: IconButton(
                             icon: const Icon(Icons.share),
                             onPressed: () {
-                              // TODO bygge delning funktion
+                              _showDialog(context, decryptedNotes![index].title,
+                                  decryptedNotes![index].text);
                             },
                           ),
                           onTap: () async {
-                             Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => NotePage(id: decryptedNotes![index].id, title: decryptedNotes![index].title, text: decryptedNotes![index].text, token: widget.token, user_id: widget.userid, privatekey: key.key)
-                    ));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => NotePage(
+                                        id: decryptedNotes![index].id,
+                                        title: decryptedNotes![index].title,
+                                        text: decryptedNotes![index].text,
+                                        token: widget.token,
+                                        user_id: widget.userid,
+                                        privatekey: key.key)));
                           },
                         );
                       });

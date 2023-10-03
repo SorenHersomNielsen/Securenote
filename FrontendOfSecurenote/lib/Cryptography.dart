@@ -19,7 +19,7 @@ class cryptography {
 
   String encryptAES(String data, String password) {
     final key = Key.fromUtf8(password);
-    final iv = IV(Uint8List(16)); 
+    final iv = IV(Uint8List(16));
     final encrypter = Encrypter(AES(key));
     final encrypted = encrypter.encrypt(data, iv: iv);
     return encrypted.base64;
@@ -27,15 +27,14 @@ class cryptography {
 
   String decryptAES(String encryptedData, String password) {
     final key = Key.fromUtf8(password);
-    final iv = IV(Uint8List(16)); 
+    final iv = IV(Uint8List(16));
     final encrypter = Encrypter(AES(key));
     final decrypted = encrypter.decrypt64(encryptedData, iv: iv);
     return decrypted;
   }
 
   List<String> keypair() {
-    RSAKeypair rsaKeypair =
-        RSAKeypair.fromRandom(); 
+    RSAKeypair rsaKeypair = RSAKeypair.fromRandom();
 
     final publicKey = rsaKeypair.publicKey;
     final privateKey = rsaKeypair.privateKey;
@@ -48,26 +47,27 @@ class cryptography {
     return list;
   }
 
-  Future<List<Note>?> decryptObjects(List<Note> encryptedObjects,String RSAkey) async {
+  Future<List<Note>?> decryptObjects(
+      List<Note> encryptedObjects, String RSAkey) async {
     List<Note> decryptedObjects = [];
     final privateKey = RSAPrivateKey.fromString(RSAkey);
 
-    if(encryptedObjects.isEmpty) {
+    if (encryptedObjects.isEmpty) {
       return null;
     } else {
-       for (var encryptedObject in encryptedObjects) {
-      String title = privateKey.decrypt(encryptedObject.title);
-      String text = privateKey.decrypt(encryptedObject.text);
-      Note note = Note(id: encryptedObject.id, title: title, text: text);
-      decryptedObjects.add(note);
-    }
-    return decryptedObjects;
+      for (var encryptedObject in encryptedObjects) {
+        String title = privateKey.decrypt(encryptedObject.title);
+        String text = privateKey.decrypt(encryptedObject.text);
+        Note note = Note(id: encryptedObject.id, title: title, text: text);
+        decryptedObjects.add(note);
+      }
+      return decryptedObjects;
     }
   }
 
   Encryptnote encryptNote(Encryptnote note, String key) {
     final publicKey = RSAPublicKey.fromString(key);
-   
+
     final title = publicKey.encrypt(note.title);
 
     final text = publicKey.encrypt(note.text);

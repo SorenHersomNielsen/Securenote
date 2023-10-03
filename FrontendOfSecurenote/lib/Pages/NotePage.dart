@@ -5,7 +5,13 @@ import 'package:frontendofsecurenote/Viewmodel.dart';
 
 class NotePage extends StatefulWidget {
   NotePage(
-      {Key? key, required this.id, required this.title, required this.text, required this.token, required this.user_id, required this.privatekey})
+      {Key? key,
+      required this.id,
+      required this.title,
+      required this.text,
+      required this.token,
+      required this.user_id,
+      required this.privatekey})
       : super(key: key);
 
   final int id;
@@ -13,7 +19,7 @@ class NotePage extends StatefulWidget {
   final String text;
   final String token;
   final int user_id;
-  final String privatekey; 
+  final String privatekey;
 
   @override
   _NotePageState createState() => _NotePageState();
@@ -73,10 +79,11 @@ class _NotePageState extends State<NotePage> {
               ElevatedButton(
                 onPressed: () async {
                   encryptdata = Encryptnote(title: title, text: text);
-                    encryptdata =
-                        cryptography().encryptNote(encryptdata, widget.privatekey);
+                  encryptdata = cryptography()
+                      .encryptNote(encryptdata, widget.privatekey);
 
-                  Viewmodel().updateNote(widget.id, encryptdata.title, encryptdata.text, widget.id, widget.token);
+                  Viewmodel().updateNote(widget.id, encryptdata.title,
+                      encryptdata.text, widget.id, widget.token);
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text("Noter updateret"),

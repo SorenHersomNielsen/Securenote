@@ -6,7 +6,6 @@ namespace BackendOfSecurenote.Manager
 	{
 
 		private readonly UserContext _context;
-        private readonly KeysContext keyscontext;
 		private readonly IConfiguration _configuration;
 	
         public UserManager(UserContext context, IConfiguration configuration)

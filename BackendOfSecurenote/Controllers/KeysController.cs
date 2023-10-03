@@ -12,9 +12,9 @@ namespace BackendOfSecurenote.Controllers
     public class KeysController : Controller
     {
         private readonly KeyManager _manager;
-        public KeysController(KeysContext context)
+        public KeysController(KeysContext context, UserContext userContext)
         {
-            _manager = new KeyManager(context);
+            _manager = new KeyManager(context, userContext);
         }
 
         // GET api/values/5
@@ -25,6 +25,20 @@ namespace BackendOfSecurenote.Controllers
         public ActionResult<Keys> Get(int id)
         {
             Keys key = _manager.getkey(id);
+            if (key == null)
+            {
+                return NotFound();
+            }
+            return Ok(key);
+        }
+
+        [HttpGet("sharing/{username}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public ActionResult<Keys> Getkeybyusername(string username)
+        {
+            Keys key = _manager.getKeyByusername(username);
             if (key == null)
             {
                 return NotFound();
