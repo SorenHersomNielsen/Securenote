@@ -5,13 +5,14 @@ import 'package:frontendofsecurenote/Model/UserResponse.dart';
 import 'package:http/http.dart' as http;
 
 class NetworkMethod {
-  Future<Note> updateNote(int id, String title, String text) async {
-    var body = jsonEncode({"title": title, "text": text});
+  Future<Note> updateNote(int id, String title, String text, int user_id, String token) async {
+    var body = jsonEncode({"title": title, "text": text, "user_id": user_id});
 
     final response =
         await http.put(Uri.parse("https://localhost:7195/api/Note/$id"),
             headers: <String, String>{
               'Content-Type': 'application/json; charset=UTF-8',
+               'Authorization': 'Bearer $token'
             },
             body: body);
 

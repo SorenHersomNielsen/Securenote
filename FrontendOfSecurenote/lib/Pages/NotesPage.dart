@@ -118,7 +118,6 @@ class _NotesState extends State<NotesPage> {
                           token: widget.token,
                           user_id: widget.userid,
                           privatekey: key.key,
-                          password: widget.password,
                         )));
           },
           tooltip: 'Tilføj noter',

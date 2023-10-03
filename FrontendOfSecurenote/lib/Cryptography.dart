@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart';
-import 'package:frontendofsecurenote/Model/CreateNote.dart';
+import 'package:frontendofsecurenote/Model/Encryptnote.dart';
 import 'package:frontendofsecurenote/Model/Note.dart';
 import 'dart:convert';
 
@@ -66,14 +66,14 @@ class cryptography {
     }
   }
 
-  List<String> EncryptedNote(CreateNote note, String key) {
+  Encryptnote encryptNote(Encryptnote note, String key) {
     final publicKey = RSAPublicKey.fromString(key);
 
     final title = publicKey.encrypt(note.title);
     final text = publicKey.encrypt(note.text);
 
-    List<String> list = [title, text];
+    Encryptnote encryptdata = Encryptnote(title: title, text: text);  
 
-    return list;
+    return encryptdata;
   }
 }

@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:frontendofsecurenote/Cryptography.dart';
-import 'package:frontendofsecurenote/Model/CreateNote.dart';
+import 'package:frontendofsecurenote/Model/Encryptnote.dart';
 import 'package:frontendofsecurenote/Model/Keys.dart';
-import 'package:frontendofsecurenote/Pages/NotesPage.dart';
 import 'package:frontendofsecurenote/Viewmodel.dart';
 
 class AddNotePage extends StatefulWidget {
-  const AddNotePage({Key? key, required this.token, required this.user_id, required this.privatekey, required this.password })
+  const AddNotePage({Key? key, required this.token, required this.user_id, required this.privatekey})
       : super(key: key);
 
   final String token;
   final int user_id;
   final String privatekey; 
-  final String password;
 
   @override
   _AddNotePageState createState() => _AddNotePageState();
@@ -24,8 +22,8 @@ class _AddNotePageState extends State<AddNotePage> {
   late String text = "";
   late Future<Keys> keys;
   late String keyid;
-  late CreateNote encryptdata;
-  late List<String> encrypteddata;
+  late Encryptnote encryptdata;
+  late Encryptnote encrypteddata;
 
   @override
   Widget build(BuildContext context) {
@@ -80,17 +78,17 @@ class _AddNotePageState extends State<AddNotePage> {
                         content: Text("Manglende tekst"),
                         backgroundColor: Colors.red));
                   } else {
-                    encryptdata = CreateNote(title: title, text: text);
+                    encryptdata = Encryptnote(title: title, text: text);
                     encrypteddata =
-                        cryptography().EncryptedNote(encryptdata, widget.privatekey);
-                    Viewmodel().createNote(encrypteddata[0], encrypteddata[1],
+                        cryptography().encryptNote(encryptdata, widget.privatekey);
+                    Viewmodel().createNote(encrypteddata.title, encrypteddata.text,
                         widget.token, widget.user_id);
-                    await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => NotesPage(token: widget.token, userid: widget.user_id, password: widget.password,),
-                  ),
-                );
+                      ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Noter er oprettet"),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
                   }
                 },
                 child: const Text('Gem'),

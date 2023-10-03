@@ -16,8 +16,8 @@ class Viewmodel {
     return networkMethod.createNote(title, text, token, user_id);
   }
 
-  Future<Note> updateNote(int id, String title, String text) {
-    return networkMethod.updateNote(id, title, text);
+  Future<Note> updateNote(int id, String title, String text, int user_id, String token) {
+    return networkMethod.updateNote(id, title, text, user_id, token);
   }
 
   Future<http.Response> deleteNote(int id) {
