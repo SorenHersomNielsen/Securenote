@@ -20,8 +20,8 @@ class Viewmodel {
     return networkMethod.updateNote(id, title, text, user_id, token);
   }
 
-  Future<http.Response> deleteNote(int id) {
-    return networkMethod.deleteNote(id);
+  Future<http.Response> deleteNote(int id, String token) {
+    return networkMethod.deleteNote(id, token);
   }
 
   // skal har kigget på alle dem over denne linje

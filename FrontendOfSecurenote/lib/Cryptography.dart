@@ -49,7 +49,6 @@ class cryptography {
   }
 
   Future<List<Note>?> decryptObjects(List<Note> encryptedObjects,String RSAkey) async {
-
     List<Note> decryptedObjects = [];
     final privateKey = RSAPrivateKey.fromString(RSAkey);
 
@@ -68,11 +67,12 @@ class cryptography {
 
   Encryptnote encryptNote(Encryptnote note, String key) {
     final publicKey = RSAPublicKey.fromString(key);
-
+   
     final title = publicKey.encrypt(note.title);
+
     final text = publicKey.encrypt(note.text);
 
-    Encryptnote encryptdata = Encryptnote(title: title, text: text);  
+    Encryptnote encryptdata = Encryptnote(title: title, text: text);
 
     return encryptdata;
   }

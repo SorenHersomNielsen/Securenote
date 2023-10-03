@@ -23,14 +23,16 @@ class NetworkMethod {
     }
   }
 
-  Future<http.Response> deleteNote(int id) async {
+  Future<http.Response> deleteNote(int id, String token) async {
     final http.Response response =
-        await http.delete(Uri.parse("https://localhost:7195/api/Note/$id"));
+        await http.delete(Uri.parse("https://localhost:7195/api/Note/$id"),
+           headers: <String, String>{
+               'Authorization': 'Bearer $token'
+            },);
 
     return response;
   }
 
-  // skal har kigge på alle op over denne linje
 
   Future<UserResponse?> CreateAccount(String username, String password) async {
     final response = await http.post(

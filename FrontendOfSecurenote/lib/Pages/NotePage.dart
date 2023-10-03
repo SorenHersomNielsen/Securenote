@@ -24,7 +24,6 @@ class _NotePageState extends State<NotePage> {
   late String title = widget.title;
   late String text = widget.text;
   late Encryptnote encryptdata;
-  late List<String> encrypteddata;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +37,7 @@ class _NotePageState extends State<NotePage> {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(widget.id.toString()),
+                  child: Text("Id: ${widget.id}"),
                 ),
               ),
               Expanded(
@@ -74,10 +73,10 @@ class _NotePageState extends State<NotePage> {
               ElevatedButton(
                 onPressed: () async {
                   encryptdata = Encryptnote(title: title, text: text);
-                    encrypteddata =
-                        cryptography().EncryptNote(encryptdata, widget.privatekey);
+                    encryptdata =
+                        cryptography().encryptNote(encryptdata, widget.privatekey);
 
-                  Viewmodel().updateNote(widget.id, title, text, widget.id, widget.token);
+                  Viewmodel().updateNote(widget.id, encryptdata.title, encryptdata.text, widget.id, widget.token);
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text("Noter updateret"),
@@ -90,7 +89,7 @@ class _NotePageState extends State<NotePage> {
               ),
               ElevatedButton(
                 onPressed: () async {
-                  Viewmodel().deleteNote(widget.id);
+                  Viewmodel().deleteNote(widget.id, widget.token);
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text("Noter er slettet"),

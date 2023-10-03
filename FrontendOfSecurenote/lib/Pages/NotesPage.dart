@@ -3,6 +3,7 @@ import 'package:frontendofsecurenote/Cryptography.dart';
 import 'package:frontendofsecurenote/Model/Keys.dart';
 import 'package:frontendofsecurenote/Model/Note.dart';
 import 'package:frontendofsecurenote/Pages/AddNotePage.dart';
+import 'package:frontendofsecurenote/Pages/NotePage.dart';
 import 'package:frontendofsecurenote/Viewmodel.dart';
 import 'dart:async';
 
@@ -55,15 +56,17 @@ class _NotesState extends State<NotesPage> {
 
     List<Note> notes = await encryptednotes;
 
+    
     for(var note in notes) {
-      Note notes = Note(id: note.id, title: note.title, text: note.title);
+      Note notes = Note(id: note.id, title: note.title, text: note.text);
       listofnotes.add(notes);
-    }
+    } 
      decryptedNotes =
-          await cryptography().decryptObjects(listofnotes, decryptedkey);
+          await cryptography().decryptObjects(notes, decryptedkey);
           setState(() {
             decryptedNotes = decryptedNotes;
           });
+
   }
 
   void refreshNotes() {
@@ -98,7 +101,11 @@ class _NotesState extends State<NotesPage> {
                             },
                           ),
                           onTap: () async {
-                            // TODO bygge vejen til at ændre data;
+                             Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => NotePage(id: decryptedNotes![index].id, title: decryptedNotes![index].title, text: decryptedNotes![index].text, token: widget.token, user_id: widget.userid, privatekey: key.key)
+                    ));
                           },
                         );
                       });

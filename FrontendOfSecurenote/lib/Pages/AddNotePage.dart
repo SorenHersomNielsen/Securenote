@@ -23,7 +23,6 @@ class _AddNotePageState extends State<AddNotePage> {
   late Future<Keys> keys;
   late String keyid;
   late Encryptnote encryptdata;
-  late Encryptnote encrypteddata;
 
   @override
   Widget build(BuildContext context) {
@@ -79,9 +78,11 @@ class _AddNotePageState extends State<AddNotePage> {
                         backgroundColor: Colors.red));
                   } else {
                     encryptdata = Encryptnote(title: title, text: text);
-                    encrypteddata =
+                    encryptdata =
                         cryptography().encryptNote(encryptdata, widget.privatekey);
-                    Viewmodel().createNote(encrypteddata.title, encrypteddata.text,
+
+
+                    Viewmodel().createNote(encryptdata.title, encryptdata.text,
                         widget.token, widget.user_id);
                       ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
