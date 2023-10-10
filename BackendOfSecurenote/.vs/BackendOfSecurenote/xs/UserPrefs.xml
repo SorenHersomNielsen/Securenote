@@ -1,27 +1,24 @@
 ﻿<Properties StartupConfiguration="{4F69367C-3C22-4685-99A0-BF9238015A60}|https">
   <MonoDevelop.Ide.ItemProperties.BackendOfSecurenote PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/sorennielsen/Documents/Skole/Softwaresikkerhed/Securenote/BackendOfSecurenote/Manager/KeyManager.cs" relfile="Manager/KeyManager.cs" line="34" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Manager/KeyManager.cs">
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Manager/NoteManager.cs">
     <Files>
-      <File FileName="Manager/KeyManager.cs" Line="34" Column="1" />
-      <File FileName="Controllers/KeysController.cs" Line="41" Column="60" />
+      <File FileName="Manager/NoteManager.cs" Line="21" Column="10" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="BackendOfSecurenote">
             <Node name="BackendOfSecurenote">
-              <Node name="Controllers" expanded="True" />
-              <Node name="Manager" expanded="True">
-                <Node name="KeyManager.cs" selected="True" />
+              <Node name="Dependencies" expanded="True">
+                <Node name="PackageDependencies" expanded="True" />
               </Node>
-              <Node name="Models" expanded="True" />
             </Node>
           </Node>
         </State>
