@@ -1,29 +1,34 @@
 ﻿<Properties StartupConfiguration="{4F69367C-3C22-4685-99A0-BF9238015A60}|https">
-  <MonoDevelop.Ide.ItemProperties.BackendOfSecurenote PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/sorennielsen/Documents/Skole/Softwaresikkerhed/Securenote/BackendOfSecurenote/Manager/KeyManager.cs" relfile="Manager/KeyManager.cs" line="34" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.BackendOfSecurenote PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Manager/NoteManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/KeysController.cs">
     <Files>
-      <File FileName="Manager/NoteManager.cs" Line="21" Column="10" />
+      <File FileName="Program.cs" Line="24" Column="22" />
+      <File FileName="Manager/IJWTManager.cs" Line="1" Column="1" />
+      <File FileName="Manager/JWTManager.cs" Line="33" Column="44" />
+      <File FileName="appsettings.json" Line="8" Column="1" />
+      <File FileName="Controllers/KeysController.cs" Line="10" Column="5" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="BackendOfSecurenote">
-            <Node name="BackendOfSecurenote">
-              <Node name="Dependencies" expanded="True">
-                <Node name="PackageDependencies" expanded="True" />
+            <Node name="BackendOfSecurenote" expanded="True">
+              <Node name="Controllers" expanded="True">
+                <Node name="KeysController.cs" selected="True" />
               </Node>
+              <Node name="Manager" expanded="True" />
             </Node>
           </Node>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
 </Properties>
