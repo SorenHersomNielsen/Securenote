@@ -8,12 +8,12 @@ class Routes {
 
   static var signin = Handler(
       handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-    return Login();
+    return const Login();
   });
 
   static var createaccount = Handler(
       handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-    return CreateAccount();
+    return const CreateAccount();
   });
 
   static dynamic defineRoutes() {

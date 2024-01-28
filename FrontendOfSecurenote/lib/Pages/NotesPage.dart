@@ -27,7 +27,7 @@ class NotesPage extends StatefulWidget {
 class _NotesState extends State<NotesPage> {
   late Future<List<Note>> encryptednotes;
   late Future<Keys> keys;
-  late List<Note>? decryptedNotes = [];
+  late List<Note> decryptedNotes = [];
   final viewmodel = Viewmodel();
   late Keys key;
   late String encryptetkey;
@@ -59,7 +59,7 @@ class _NotesState extends State<NotesPage> {
       Note notes = Note(id: note.id, title: note.title, text: note.text);
       listofnotes.add(notes);
     }
-    decryptedNotes = await cryptography().decryptObjects(notes, decryptedkey);
+    decryptedNotes = await cryptography().decryptObjects(notes, decryptedkey) ?? [];
     setState(() {
       decryptedNotes = decryptedNotes;
     });
@@ -127,25 +127,25 @@ class _NotesState extends State<NotesPage> {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(20),
-        child: FutureBuilder<List<Note>>(
+        child: FutureBuilder<List<Note?>>(
             future: Future.value(decryptedNotes),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                if (decryptedNotes!.isEmpty) {
+                if (decryptedNotes.isEmpty) {
                   return const Center(
                     child: Text('Intet data'),
                   );
                 } else {
                   return ListView.builder(
-                      itemCount: decryptedNotes!.length,
+                      itemCount: decryptedNotes.length,
                       itemBuilder: (context, int index) {
                         return ListTile(
-                          title: Text(decryptedNotes![index].title),
+                          title: Text(decryptedNotes[index].title),
                           trailing: IconButton(
                             icon: const Icon(Icons.share),
                             onPressed: () {
-                              _showDialog(context, decryptedNotes![index].title,
-                                  decryptedNotes![index].text);
+                              _showDialog(context, decryptedNotes[index].title,
+                                  decryptedNotes[index].text);
                             },
                           ),
                           onTap: () async {
@@ -153,9 +153,9 @@ class _NotesState extends State<NotesPage> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => NotePage(
-                                        id: decryptedNotes![index].id,
-                                        title: decryptedNotes![index].title,
-                                        text: decryptedNotes![index].text,
+                                        id: decryptedNotes[index].id,
+                                        title: decryptedNotes[index].title,
+                                        text: decryptedNotes[index].text,
                                         token: widget.token,
                                         user_id: widget.userid,
                                         privatekey: key.key)));
