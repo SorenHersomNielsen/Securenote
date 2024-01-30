@@ -77,10 +77,10 @@ packages:
     dependency: "direct main"
     description:
       name: crypton
-      sha256: dc939afa51968664f92d09ac13039884875f38ca31285861a0b3aadc96e0aaa8
+      sha256: "17b6631fbf89e389d421b46629132287ed37d601b2ad1357445826ab85022271"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.0"
+    version: "2.2.1"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -143,10 +143,10 @@ packages:
     dependency: "direct main"
     description:
       name: http
-      sha256: "759d1a329847dd0f39226c688d3e06a6b8679668e350e2891a6474f8b4bb8525"
+      sha256: a2bbf9d017fcced29139daa8ed2bba4ece450ab222871df93ca9eec6f80c34ba
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.0"
+    version: "1.2.0"
   http_parser:
     dependency: transitive
     description:
@@ -207,10 +207,10 @@ packages:
     dependency: "direct main"
     description:
       name: pointycastle
-      sha256: "7c1e5f0d23c9016c5bbd8b1473d0d3fb3fc851b876046039509e18e0c7485f2c"
+      sha256: "43ac87de6e10afabc85c445745a7b799e04de84cebaa4fd7bf55a5e1e9604d29"
       url: "https://pub.dev"
     source: hosted
-    version: "3.7.3"
+    version: "3.7.4"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -289,5 +289,5 @@ packages:
     source: hosted
     version: "0.3.0"
 sdks:
-  dart: ">=3.2.0-194.0.dev <4.0.0"
+  dart: ">=3.2.0 <4.0.0"
   flutter: ">=1.17.0"

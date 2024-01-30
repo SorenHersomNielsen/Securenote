@@ -4,10 +4,10 @@ import 'package:encrypt/encrypt.dart';
 import 'package:frontendofsecurenote/Model/Encryptnote.dart';
 import 'package:frontendofsecurenote/Model/Note.dart';
 import 'dart:convert';
-
 import 'package:crypton/crypton.dart';
 
 class cryptography {
+  
   String generateSha256(String input) {
     var bytes = utf8.encode(input);
     var digest = sha256.convert(bytes);
@@ -18,6 +18,7 @@ class cryptography {
   static Encrypted? encrypted;
 
   String encryptAES(String data, String password) {
+    AESMode.cbc;
     final key = Key.fromUtf8(password);
     final iv = IV(Uint8List(16));
     final encrypter = Encrypter(AES(key));
@@ -26,6 +27,7 @@ class cryptography {
   }
 
   String decryptAES(String encryptedData, String password) {
+    AESMode.cbc;
     final key = Key.fromUtf8(password);
     final iv = IV(Uint8List(16));
     final encrypter = Encrypter(AES(key));
@@ -48,7 +50,7 @@ class cryptography {
   }
 
   Future<List<Note>?> decryptObjects(
-      List<Note> encryptedObjects, String RSAkey) async {
+    List<Note> encryptedObjects, String RSAkey) async {
     List<Note> decryptedObjects = [];
     final privateKey = RSAPrivateKey.fromString(RSAkey);
 
@@ -76,4 +78,7 @@ class cryptography {
 
     return encryptdata;
   }
+
+  
+
 }

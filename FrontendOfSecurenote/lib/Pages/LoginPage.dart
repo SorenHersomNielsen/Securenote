@@ -53,7 +53,9 @@ class _loginState extends State<Login> {
                       return 'Være venligt at skrive dit brugernavn';
                     }
                     return null;
-                  }),
+                  },
+                  autofillHints: const [AutofillHints.username],
+                  ),
               const SizedBox(height: 20),
               TextFormField(
                 key: const Key('password'),
@@ -69,6 +71,7 @@ class _loginState extends State<Login> {
                   }
                   return null;
                 },
+                autofillHints: const [AutofillHints.password],
               ),
               const SizedBox(height: 10),
               SizedBox(
